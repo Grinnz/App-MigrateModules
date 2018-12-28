@@ -9,7 +9,7 @@ use HTTP::Tinyish;
 use IPC::Open3;
 use Pod::Usage;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 GetOptions(
   'notest|n' => \my $notest,
