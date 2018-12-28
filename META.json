@@ -67,6 +67,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/Grinnz/App-MigrateModules/issues"
+      },
+      "homepage" : "https://github.com/Grinnz/App-MigrateModules",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/Grinnz/App-MigrateModules.git",
+         "web" : "https://github.com/Grinnz/App-MigrateModules"
+      }
+   },
    "version" : "0.001",
    "x_Dist_Zilla" : {
       "perl" : {
