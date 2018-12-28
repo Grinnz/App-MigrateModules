@@ -2,11 +2,37 @@
 
 =head1 NAME
 
-App::MigrateModules - Migrate installed CPAN modules from one Perl to another
+perl-migrate-modules - Migrate installed CPAN modules from one Perl to another
+
+=head1 SYNOPSIS
+
+  perl-migrate-modules [OPTIONS] <src-path> <dest-path>
+
+    perl-migrate-modules /path/to/perl-5.28.0 /path/to/perl-5.28.1
+    perl-migrate-modules -nq /usr/bin/perl ~/bin/perl
+
+  Options:
+    -h, --help                   Show this message
+    -n, --notest                 Skip testing and test dependencies
+    -q, --quiet                  Show only installation successes and failures
+    -v, --version                Show the version of this script
 
 =head1 DESCRIPTION
 
-See L<perl-migrate-modules>.
+Reinstalls all modules found in the source Perl into the destination Perl,
+similar to the C<clone-modules> command for L<perlbrew> or the
+C<migrate-modules> command for L<plenv|https://github.com/tokuhirom/plenv>. The
+Perls may be passed as paths to the base installation directory or paths to the
+F<perl> executable itself.
+
+=head1 CAVEATS
+
+Only modules with F<.packlist> will be migrated, this will include any module
+installed by CPAN clients, but generally not modules installed by vendor
+packages or core modules.
+
+Migrated modules will be installed at their latest indexed version, not the
+version that exists in the source Perl.
 
 =head1 BUGS
 
@@ -23,5 +49,9 @@ This software is Copyright (c) 2018 by Dan Book.
 This is free software, licensed under:
 
   The Artistic License 2.0 (GPL Compatible)
+
+=head1 SEE ALSO
+
+L<perlbrew/"COMMAND: CLONE-MODULES">
 
 =cut
