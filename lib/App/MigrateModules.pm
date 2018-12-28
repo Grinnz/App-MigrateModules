@@ -9,11 +9,11 @@ our $VERSION = '0.001';
 
 =head1 NAME
 
-App::MigrateModules - Module abstract
-
-=head1 SYNOPSIS
+App::MigrateModules - Migrate installed CPAN modules from one Perl to another
 
 =head1 DESCRIPTION
+
+See L<perl-migrate-modules>.
 
 =head1 BUGS
 
@@ -30,6 +30,3 @@ This software is Copyright (c) 2018 by Dan Book.
 This is free software, licensed under:
 
   The Artistic License 2.0 (GPL Compatible)
-
-=head1 SEE ALSO
-
