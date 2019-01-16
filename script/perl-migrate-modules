@@ -38,9 +38,15 @@ unless ($response->{success}) {
   die "Failed to download $url: $response->{status} $response->{reason}\n";
 }
 
-my $list_pid = open3 undef, my $list_out, '>&STDERR', $src, '-MExtUtils::Installed', '-e',
-  'for (ExtUtils::Installed->new(skip_cwd => 1, extra_libs => [@ARGV])->modules) {next if /\APerl\z/; print $_, "\n";}',
-  @libs;
+my $list_pid;
+{
+  local $ENV{PERLLIB};
+  local $ENV{PERL5LIB};
+  local $ENV{PERL5OPT};
+  $list_pid = open3 undef, my $list_out, '>&STDERR', $src, '-MExtUtils::Installed', '-e',
+    'for (ExtUtils::Installed->new(skip_cwd => 1, extra_libs => [@ARGV])->modules) {next if /\APerl\z/; print $_, "\n";}',
+    @libs;
+}
 
 my @opts;
 push @opts, '-n' if $notest;
@@ -133,6 +139,11 @@ packages or core modules.
 
 Migrated modules will be installed at their latest indexed version, not the
 version that exists in the source Perl.
+
+Any environment settings that affect Perl's library search and module install
+locations, such as C<PERL5LIB> or an active L<local::lib>, will be ignored for
+the source Perl but will have its normal effect on installation into the
+destination Perl.
 
 =head1 BUGS
 
