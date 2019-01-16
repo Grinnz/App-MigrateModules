@@ -14,6 +14,7 @@ our $VERSION = '0.002';
 GetOptions(
   'notest|n' => \my $notest,
   'quiet|q'  => \my $quiet,
+  'lib|I=s' => \my @libs,
 ) or die "Invalid options passed\n";
 
 my ($src, $dest) = @ARGV;
@@ -38,7 +39,8 @@ unless ($response->{success}) {
 }
 
 my $list_pid = open3 undef, my $list_out, '>&STDERR', $src, '-MExtUtils::Installed', '-e',
-  'for (ExtUtils::Installed->new(skip_cwd => 1)->modules) {next if /\APerl\z/; print $_, "\n";}';
+  'for (ExtUtils::Installed->new(skip_cwd => 1, extra_libs => [@ARGV])->modules) {next if /\APerl\z/; print $_, "\n";}',
+  @libs;
 
 my @opts;
 push @opts, '-n' if $notest;
@@ -70,9 +72,11 @@ perl-migrate-modules - Migrate installed CPAN modules from one Perl to another
 
     perl-migrate-modules /path/to/perl-5.28.0 /path/to/perl-5.28.1
     perl-migrate-modules -nq /usr/bin/perl ~/bin/perl
+    perl-migrate-modules --lib=lib -I ~/perl5/lib/perl5 ~/perls/5.8.1 ~/perls/5.10.1
 
   Options:
     -h, --help                   Show this message
+    -I, --lib                    Additional search path(s) for source modules
     -n, --notest                 Skip testing and test dependencies
     -q, --quiet                  Show only installation successes and failures
     -v, --version                Show the version of this script
@@ -84,6 +88,42 @@ similar to the C<clone-modules> command for L<perlbrew> or the
 C<migrate-modules> command for L<plenv|https://github.com/tokuhirom/plenv>. The
 Perls may be passed as paths to the base installation directory or paths to the
 F<perl> executable itself.
+
+The C<-I>/C<--lib> option allows specifying additional search paths for modules
+from the source Perl, such as L<local::lib> directories. The install behavior
+for the destination Perl can be influenced using standard Perl and L<cpanm>
+environment variables, such as L<ExtUtils::MakeMaker/PERL_MM_OPT>,
+L<Module::Build/PERL_MB_OPT>, and L<cpanm/PERL_CPANM_OPT>.
+
+=head1 EXAMPLES
+
+=over
+
+=item *
+
+Basic migration of modules to a newly installed Perl:
+
+  $ perl-migrate-modules /opt/perl-5.20.3 /opt/perl-5.22.0
+
+=item *
+
+Migrate modules from an old (inactive) local::lib directory:
+
+  $ perl-migrate-modules -I ~/perl5-old/lib/perl5 /usr/bin/perl /usr/bin/perl
+
+=item *
+
+Migrate modules to a custom local::lib location:
+
+  $ env PERL_CPANM_OPT='-l /opt/project/local' perl-migrate-modules /opt/perl-5.28.0 /opt/perl-5.28.1
+
+=item *
+
+Update all modules installed in the current Perl:
+
+  $ perl-migrate-modules $(which perl) $(which perl)
+
+=back
 
 =head1 CAVEATS
 
