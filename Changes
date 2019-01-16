@@ -1,4 +1,6 @@
 {{$NEXT}}
+
+0.002     2019-01-16 14:50:47 EST
   - Add -f/--from option for overriding source libs
   - Add -I/--lib option for specifying additional source libs
   - Add examples to documentation
