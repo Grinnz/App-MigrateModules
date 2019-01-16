@@ -6,15 +6,16 @@ perl-migrate-modules - Migrate installed CPAN modules from one Perl to another
 
 =head1 SYNOPSIS
 
-  perl-migrate-modules [OPTIONS] <src-path> <dest-path>
+  perl-migrate-modules [OPTIONS] [<src-path>] <dest-path>
 
     perl-migrate-modules /path/to/perl-5.28.0 /path/to/perl-5.28.1
-    perl-migrate-modules -nq /usr/bin/perl ~/bin/perl
-    perl-migrate-modules --lib=lib -I ~/perl5/lib/perl5 ~/perls/5.8.1 ~/perls/5.10.1
+    perl-migrate-modules -nq -Ilib /usr/bin/perl ~/bin/perl
+    perl-migrate-modules --from ~/perl5/lib/perl5 ~/perls/5.20.0
 
   Options:
     -h, --help                   Show this message
-    -I, --lib                    Additional search path(s) for source modules
+    -f <path>, --from=<path>     Search only these path(s) for source modules
+    -I <path>, --lib=<path>      Additional search path(s) for source modules
     -n, --notest                 Skip testing and test dependencies
     -q, --quiet                  Show only installation successes and failures
     -v, --version                Show the version of this script
@@ -25,7 +26,8 @@ Reinstalls all modules found in the source Perl into the destination Perl,
 similar to the C<clone-modules> command for L<perlbrew> or the
 C<migrate-modules> command for L<plenv|https://github.com/tokuhirom/plenv>. The
 Perls may be passed as paths to the base installation directory or paths to the
-F<perl> executable itself.
+F<perl> executable itself. If only one path is passed, it will be used as both
+the source and destination.
 
 The C<-I>/C<--lib> option allows specifying additional search paths for modules
 from the source Perl, such as L<local::lib> directories. The install behavior
@@ -47,7 +49,7 @@ Basic migration of modules to a newly installed Perl:
 
 Migrate modules from an old (inactive) local::lib directory:
 
-  $ perl-migrate-modules -I ~/perl5-old/lib/perl5 /usr/bin/perl /usr/bin/perl
+  $ perl-migrate-modules --from ~/perl5-old/lib/perl5 /usr/bin/perl
 
 =item *
 
@@ -59,7 +61,7 @@ Migrate modules to a custom local::lib location:
 
 Update all modules installed in the current Perl:
 
-  $ perl-migrate-modules $(which perl) $(which perl)
+  $ perl-migrate-modules $(which perl)
 
 =back
 
