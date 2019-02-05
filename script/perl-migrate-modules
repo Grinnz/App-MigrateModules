@@ -132,6 +132,12 @@ Migrate modules from an old (inactive) local::lib directory:
 
 =item *
 
+Migrate modules from the sitelib of a Perl that can no longer be executed:
+
+  $ perl-migrate-modules --from ~/.plenv/versions/5.24.0/lib/perl5/site_perl/5.24.0/ $(which perl)
+
+=item *
+
 Migrate modules to a custom local::lib location:
 
   $ env PERL_CPANM_OPT='-l /opt/project/local' perl-migrate-modules /opt/perl-5.28.0 /opt/perl-5.28.1
