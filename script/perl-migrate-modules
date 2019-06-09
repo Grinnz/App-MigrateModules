@@ -10,7 +10,7 @@ use IPC::Open3;
 use Module::CoreList;
 use Pod::Usage;
 
-our $VERSION = '0.003';
+our $VERSION = '0.004';
 
 GetOptions(
   'include-core|c' => \my $include_core,
