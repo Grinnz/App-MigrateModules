@@ -1,4 +1,5 @@
 {{$NEXT}}
+  - Add -c/--include-core option to include core modules from source Perl
 
 0.002     2019-01-16 14:50:47 EST
   - Add -f/--from option for overriding source libs
