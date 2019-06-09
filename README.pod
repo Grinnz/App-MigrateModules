@@ -13,6 +13,7 @@ perl-migrate-modules - Migrate installed CPAN modules from one Perl to another
     perl-migrate-modules --from ~/perl5/lib/perl5 ~/perls/5.20.0
 
   Options:
+    -c, --include-core           Install core modules from source Perl
     -h, --help                   Show this message
     -f <path>, --from=<path>     Search only these path(s) for source modules
     -I <path>, --lib=<path>      Additional search path(s) for source modules
@@ -67,7 +68,7 @@ Migrate modules to a custom local::lib location:
 
 Update all modules installed in the current Perl:
 
-  $ perl-migrate-modules $(which perl)
+  $ perl-migrate-modules --include-core $(which perl)
 
 =back
 
@@ -75,7 +76,8 @@ Update all modules installed in the current Perl:
 
 Only modules with F<.packlist> will be migrated, this will include any module
 installed by CPAN clients, but generally not modules installed by vendor
-packages or core modules.
+packages or core modules. Core modules available from CPAN can be included via
+L<Module::CoreList> with the C<--include-core> option.
 
 Migrated modules will be installed at their latest indexed version, not the
 version that exists in the source Perl.
