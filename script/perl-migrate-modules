@@ -15,6 +15,7 @@ our $VERSION = '0.005';
 GetOptions(
   'include-core|c' => \my $include_core,
   'from|f=s' => \my @from,
+  'to|t=s' => \my $to,
   'lib|I=s' => \my @libs,
   'notest|n' => \my $notest,
   'quiet|q'  => \my $quiet,
@@ -72,6 +73,7 @@ if ($include_core) {
 my @opts;
 push @opts, '-n' if $notest;
 push @opts, '-q' if $quiet;
+push @opts, "-l $to" if $to;
 
 my $install_pid = open3 my $install_in, '>&STDOUT', '>&STDERR', $dest, $cpanm, @opts;
 
